@@ -10,10 +10,7 @@ public class BossAI : MonoBehaviour
 
     [Header("สิ่งที่ต้องใส่")]
     public Transform player;
-
-    [Header("ระบบยิงเวท")]
-    public Transform firePoint;      
-    public GameObject bulletPrefab;  
+    
 
     private Rigidbody2D rb;
     private Animator anim;
@@ -63,27 +60,28 @@ public class BossAI : MonoBehaviour
     {
         rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
 
-        
+        if (anim != null) anim.SetBool("isRunning", false);
+
+
         if (player.position.x > transform.position.x)
             transform.localScale = new Vector3(Mathf.Abs(originalScale.x), originalScale.y, originalScale.z);
         else
             transform.localScale = new Vector3(-Mathf.Abs(originalScale.x), originalScale.y, originalScale.z);
 
+        
         if (Time.time >= nextAttackTime)
         {
             
             if (anim != null) anim.SetTrigger("Attack");
- 
-            Shoot();
-
+           
+            PlayerHealth playerHealth = player.GetComponent<PlayerHealth>();
+            if (playerHealth != null)
+            {
+                playerHealth.TakeDamage(damage);
+            }
+               
             nextAttackTime = Time.time + attackCooldown;
         }
-    }
-
-    void Shoot()
-    {
-        
-        Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
     }
 
 
