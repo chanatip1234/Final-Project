@@ -6,10 +6,11 @@ public class BossAI : MonoBehaviour
     public float speed = 2f;
     public float attackRange = 3f;
     public float attackCooldown = 2f;
+    public int damage = 20;
 
     [Header("สิ่งที่ต้องใส่")]
     public Transform player;
-    // ไม่ต้องใช้ Wall Left/Right ในการเช็คระยะแล้ว แต่ปล่อยคาไว้ได้ ไม่เป็นไรครับ
+    
 
     private Rigidbody2D rb;
     private Animator anim;
@@ -26,22 +27,23 @@ public class BossAI : MonoBehaviour
 
     void Update()
     {
-        // 1. เช็คระยะห่างผู้เล่น
+        
         float distanceToPlayer = Vector2.Distance(transform.position, player.position);
 
         if (distanceToPlayer < attackRange)
         {
-            AttackBehavior(); // เจอตัว -> ตี
+            AttackBehavior(); 
         }
         else
         {
-            PatrolBehavior(); // ไม่เจอ -> เดิน
+            PatrolBehavior(); 
         }
     }
 
     void PatrolBehavior()
     {
-        // เดินซ้าย-ขวา ตามปกติ (ลบส่วนเช็ค Position ออกแล้ว)
+        if (anim != null) anim.SetBool("isRunning", true);
+
         if (moveRight)
         {
             rb.linearVelocity = new Vector2(speed, rb.linearVelocity.y);
@@ -56,28 +58,38 @@ public class BossAI : MonoBehaviour
 
     void AttackBehavior()
     {
-        rb.linearVelocity = new Vector2(0, rb.linearVelocity.y); // หยุดเดิน
+        rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
 
-        // หันหน้าหาผู้เล่น
+        if (anim != null) anim.SetBool("isRunning", false);
+
+
         if (player.position.x > transform.position.x)
             transform.localScale = new Vector3(Mathf.Abs(originalScale.x), originalScale.y, originalScale.z);
         else
             transform.localScale = new Vector3(-Mathf.Abs(originalScale.x), originalScale.y, originalScale.z);
 
-        // โจมตีตามรอบ
+        
         if (Time.time >= nextAttackTime)
         {
+            
             if (anim != null) anim.SetTrigger("Attack");
+           
+            PlayerHealth playerHealth = player.GetComponent<PlayerHealth>();
+            if (playerHealth != null)
+            {
+                playerHealth.TakeDamage(damage);
+            }
+               
             nextAttackTime = Time.time + attackCooldown;
         }
     }
 
-    // --- เพิ่มฟังก์ชันนี้: ถ้าเดินชนกำแพง ให้กลับหลังหัน ---
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Wall"))
         {
-            moveRight = !moveRight; // สลับทิศทันทีที่ชน
+            moveRight = !moveRight;
         }
     }
 
@@ -86,4 +98,5 @@ public class BossAI : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, attackRange);
     }
+
 }
