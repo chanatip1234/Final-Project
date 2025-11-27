@@ -78,16 +78,15 @@ public class BossAI : MonoBehaviour
             
             if (anim != null) anim.SetTrigger("Attack");
            
-            PlayerHealth playerHealth = player.GetComponent<PlayerHealth>();
+            /*PlayerHealth playerHealth = player.GetComponent<PlayerHealth>();
             if (playerHealth != null)
             {
                 playerHealth.TakeDamage(damage);
-            }
+            }*/
                
             nextAttackTime = Time.time + attackCooldown;
         }
     }
-
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
