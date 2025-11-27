@@ -3,7 +3,7 @@
 public class BossProjectile : MonoBehaviour
 {
     public float speed = 7f; // ความเร็วลูกกระสุน
-    public float size = 4.5f;
+    public float size = 4f;
     public GameObject explosionEffect;
     void Start()
     {
