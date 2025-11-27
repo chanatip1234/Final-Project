@@ -18,6 +18,10 @@ public class BossAI : MonoBehaviour
     private float nextAttackTime = 0f;
     private Vector3 originalScale;
 
+    [Header("Projectile Settings")] 
+    public Transform firePoint;     
+    public GameObject bulletPrefab; 
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -97,6 +101,15 @@ public class BossAI : MonoBehaviour
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, attackRange);
+    }
+
+    public void Shoot()
+    {
+        if (bulletPrefab != null && firePoint != null)
+        {
+            // สร้างกระสุน
+            Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
+        }
     }
 
 }
