@@ -106,8 +106,21 @@ public class BossAI : MonoBehaviour
     {
         if (bulletPrefab != null && firePoint != null)
         {
-            // สร้างกระสุน
-            Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
+            Quaternion bulletRotation = Quaternion.identity;
+
+            // เช็คเลยว่า "ผู้เล่นอยู่ทางซ้ายของบอสไหม?"
+            if (player.position.x < transform.position.x)
+            {
+                // ถ้าอยู่ซ้าย -> หมุนกระสุน 180 องศา
+                bulletRotation = Quaternion.Euler(0, 180, 0);
+            }
+            else
+            {
+                // ถ้าอยู่ขวา -> ไม่ต้องหมุน (0 องศา)
+                bulletRotation = Quaternion.Euler(0, 0, 0);
+            }
+
+            Instantiate(bulletPrefab, firePoint.position, bulletRotation);
         }
     }
 

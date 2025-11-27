@@ -1331,7 +1331,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyPatrol
   speed: 1
-  attackRange: 3
+  attackRange: 7
   attackCooldown: 3
   damage: 20
   player: {fileID: 1004716562}
@@ -1522,7 +1522,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb56d14535a526c4e8e70683c895ca91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossEnemy
-  maxHealth: 100
+  maxHealth: 550
   currentHealth: 0
   bossUI: {fileID: 1333926005}
   healthSlider: {fileID: 1586109244}

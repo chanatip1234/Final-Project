@@ -4,7 +4,7 @@ public class BossProjectile : MonoBehaviour
 {
     public float speed = 7f; // ความเร็วลูกกระสุน
     public float size = 4.5f;
-
+    public GameObject explosionEffect;
     void Start()
     {
         GetComponent<Rigidbody2D>().linearVelocity = transform.right * speed;
@@ -17,16 +17,21 @@ public class BossProjectile : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D hitInfo)
     {
-        if (hitInfo.CompareTag("Player") || hitInfo.name == "Player")
+        if (hitInfo.CompareTag("Player") || hitInfo.CompareTag("Ground"))
         {
-            // สั่งลดเลือด
-            PlayerHealth hp = hitInfo.GetComponent<PlayerHealth>();
-            if (hp != null)
+            
+            if (explosionEffect != null)
             {
-                hp.TakeDamage(20); // ลดเลือด 20 หน่วย
+                Instantiate(explosionEffect, transform.position, Quaternion.identity);
             }
 
-            // ทำลายกระสุนทิ้ง (ให้หายไป)
+            if (hitInfo.CompareTag("Player") || hitInfo.name == "Player")
+            {
+                PlayerHealth hp = hitInfo.GetComponent<PlayerHealth>();
+                if (hp != null) hp.TakeDamage(20);
+            }
+
+            //ทำลายกระสุนทิ้งทันที
             Destroy(gameObject);
         }
     }
