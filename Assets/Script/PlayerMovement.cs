@@ -14,7 +14,7 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("I-Frame Settings")]
     public int playerLayer = 6;
-    public int projectileLayer = 8;
+    public int projectileLayer = 9;
 
     private Rigidbody2D rb;
     private Animator anim;
