@@ -3920,6 +3920,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
   speed: 3
   jumpForce: 6
+  dashPower: 20
+  dashDuration: 0.2
+  dashCooldown: 1
+  playerLayer: 6
+  projectileLayer: 9
 --- !u!50 &1004716561
 Rigidbody2D:
   serializedVersion: 5
